@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+html,
+body {
+    min-height: 100vh;
+    font-family: "Kanit", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.navbar{
+    background-color: #0b92bf;
+}
+
+.itemNav{
+    text-decoration: none;
+    color: #000000;
+    transition: ease-in-out 0.3s all; 
+}
+
+.itemNav:hover{
+    color: #ffcc00;
+    transform: scale(1.1);
+}
+
+.navActive{
+    color: #2528ab;
+    font-weight: 700;
+    font-size: large;
+}
