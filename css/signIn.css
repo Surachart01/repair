@@ -26,6 +26,13 @@ input {
     border-bottom: 5px solid;
 }
 
+select{
+    width: 80%;
+    height: 3rem;
+    border-radius: 10px;
+    border-bottom: 5px solid;
+}
+
 .card {
     width: 40%;
     box-shadow: 0px 0px 30px #000000;

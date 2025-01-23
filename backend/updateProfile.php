@@ -5,12 +5,11 @@ include("../include/connect.php");
 $id = $_POST['id'];
 $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
-$email = $_POST['email'];
-$phone = $_POST['phone'];
-$sqlUpdateProfile = "UPDATE users SET firstName = '$firstName', lastName = '$lastName', email = '$email', tel = '$phone' WHERE id = $id";
+$userName = $_POST['userName'];
+$sqlUpdateProfile = "UPDATE employee SET firstName = '$firstName', lastName = '$lastName', username = '$userName' WHERE empId = '$id'";
 $qUpdateProfile = $db->query($sqlUpdateProfile);
 if ($qUpdateProfile) {
-    $sqlGetUser = "SELECT * FROM users WHERE id = $id";
+    $sqlGetUser = "SELECT * FROM employee WHERE empId = '$id'";
     $qUpdateProfile = $db->query($sqlGetUser);
     $dataUser = $qUpdateProfile->fetch_object();
     $_SESSION['auth'] = $dataUser;

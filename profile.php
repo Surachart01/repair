@@ -1,12 +1,17 @@
-<?php 
+<?php
+try {
     session_start();
-    include("./include/connect.php");
-    $userId = $_SESSION['auth']->id;
-    $sql = "SELECT * FROM users WHERE id = $userId";
-    $q = $db->query($sql);
-    $user = $q->fetch_object();
+include("./include/connect.php");
+$userId = $_SESSION['auth']->empId;
+$sql = "SELECT * FROM employee WHERE empId = '$userId'";
+$q = $db->query($sql);
+$user = $q->fetch_object();
+} catch (\Throwable $th) {
+    echo $th;
+}
 
- ?>
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -34,11 +39,6 @@
                 <a href="send.php" class="mx-3 itemNav ">แจ้งซ่อม</a>
                 <a href="report.php" class="mx-3 itemNav">รายการส่งซ่อม</a>
                 <a href="profile.php" class="mx-3 itemNav navActive">โปรไฟล์</a>
-                <?php  
-                    if($_SESSION['auth']->role == '9'){?> 
-                    <a href="member.php" class="mx-3 itemNav">ผู้ใช้งาน</a> 
-                    <?php  }
-                ?>
                 <a href="./backend/signOut.php" class="mx-3 itemNav">ออกจากระบบ</a>
             </div>
         </div>
@@ -58,6 +58,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>ข้อมูลส่วนตัว</h4>
+                        <label for="">รหัสพนักงาน</label>
+                        <input type="text" class="form-control" value="<?php echo $user->empId ?>" disabled>
                         <div class="d-flex">
                             <div class="me-3">
                                 <label for="">ชื่อ</label>
@@ -85,27 +87,20 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="email">อีเมล</label>
+                            <label for="email">Username</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.708 2.825L15 11.383V5.383zM1 5.383v6l4.708-2.825L1 5.383zM1.5 12.5v.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-.5l-5.5-3.3-5.5 3.3z"/>
+                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.708 2.825L15 11.383V5.383zM1 5.383v6l4.708-2.825L1 5.383zM1.5 12.5v.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-.5l-5.5-3.3-5.5 3.3z" />
                                     </svg>
                                 </span>
-                                <input type="email" class="form-control" id="email" value="<?php echo $user->email ?>" placeholder="อีเมล" aria-label="Email" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" id="userName" value="<?php echo $user->username ?>" placeholder="Username" aria-label="Email" aria-describedby="basic-addon2">
                             </div>
                         </div>
-                    
+
                         <div class="mb-3">
-                            <label for="phone">เบอร์โทร</label>
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
-                                        <path d="M3.654 1.328a.678.678 0 0 1 .168-.745L5.457.168a.678.678 0 0 1 .745-.168l2.513 1.005a.678.678 0 0 1 .392.392l1.005 2.513a.678.678 0 0 1-.168.745l-1.287 1.287a11.72 11.72 0 0 0 4.287 4.287l1.287-1.287a.678.678 0 0 1 .745-.168l2.513 1.005a.678.678 0 0 1 .392.392l1.005 2.513a.678.678 0 0 1-.168.745l-1.415 1.415a.678.678 0 0 1-.745.168 15.978 15.978 0 0 1-6.01-3.757 15.978 15.978 0 0 1-3.757-6.01.678.678 0 0 1 .168-.745L3.654 1.328z"/>
-                                    </svg>
-                                </span>
-                                <input type="tel" class="form-control" value="<?php echo $user->tel ?>" id="phone" placeholder="เบอร์โทร" aria-label="Phone" aria-describedby="basic-addon4">
-                            </div>
+                            <label for="phone">แผนก</label>
+                            <input type="text" class="form-control" value="<?php echo $user->department ?>" disabled>
                         </div>
                         <button class="btn btn-success form-control" data-id="<?php echo $userId ?>" id="btnSubmit">ยืนยัน</button>
                     </div>
@@ -117,18 +112,16 @@
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
                 <script>
-                    $(document).on("click","#btnSubmit",function(){
+                    $(document).on("click", "#btnSubmit", function() {
                         let id = $(this).data('id');
                         let firstName = $('#firstName').val();
                         let lastName = $('#lastName').val();
-                        let email = $('#email').val();
-                        let phone = $('#phone').val();
+                        let userName = $('#userName').val();
                         let formData = new FormData();
-                        formData.append('id',id);
-                        formData.append('firstName',firstName);
-                        formData.append('lastName',lastName);
-                        formData.append('email',email);
-                        formData.append('phone',phone);
+                        formData.append('id', id);
+                        formData.append('firstName', firstName);
+                        formData.append('lastName', lastName);
+                        formData.append('userName', userName);
                         $.ajax({
                             url: './backend/updateProfile.php',
                             type: 'POST',
@@ -136,15 +129,15 @@
                             dataType: 'json',
                             contentType: false,
                             processData: false,
-                            success: function(res){
-                                if(res.status == 200){
+                            success: function(res) {
+                                if (res.status == 200) {
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'แก้ไขข้อมูลสำเร็จ',
                                         showConfirmButton: false,
                                         timer: 1500
                                     });
-                                }else{
+                                } else {
                                     console.log(res)
                                     Swal.fire({
                                         icon: 'error',

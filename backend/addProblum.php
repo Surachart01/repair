@@ -1,25 +1,30 @@
-<?php  
-try{
+<?php
+try {
     session_start();
     include("../include/connect.php");
-    $accessory = $_POST['accessory'];
-    $code = $_POST['code'];
-    $type = $_POST['type'];
-    $department = $_POST['department'];
+    $productId = $_POST['productId'];
     $description = $_POST['description'];
-    $userId = $_SESSION['auth']->id;
+    $userId = $_SESSION['auth']->empId;
     $date = date("Y-m-d");
 
-    $insertProblem = "INSERT INTO problems (itemName, itemCode, type, depart, description,userId,date) VALUES ('$accessory', '$code', '$type', '$department', '$description','$userId','$date')";
+    $sqlGetMaxrepairId = "SELECT MAX(repairId) as repairId FROM repair";
+    $qGetrepairId = $db->query($sqlGetMaxrepairId);
+    $row = $qGetrepairId->fetch_assoc();
+    $maxRepairId = $row['repairId'];
+
+    if ($maxRepairId) {
+        $newRepairIdNum = (int)substr($maxRepairId, 1) + 1;
+        $newRepairId = 'N' . str_pad($newRepairIdNum, 3, '0', STR_PAD_LEFT);
+    } else {
+        $newRepairId = 'N0001';
+    }
+    $insertProblem = "INSERT INTO repair (repairId,empId,productId,description,date,state) VALUES ('$newRepairId','$userId','$productId','$description','$date','0')";
     $qInsertProblem = $db->query($insertProblem);
-    if($qInsertProblem){
+    if ($qInsertProblem) {
         echo json_encode(['status' => '200', 'message' => 'Add Problem Successfully']);
-    }else{
+    } else {
         echo json_encode(['status' => '500', 'message' => 'Internal Error']);
     }
-}catch(Exception $e){
+} catch (Exception $e) {
     echo json_encode(['status' => '500', 'message' => "$e"]);
 }
-    
-   
-?>

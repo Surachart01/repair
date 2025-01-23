@@ -26,7 +26,7 @@
             <div class="card-body py-5">
                 <h2 class="my-5 text-center">Sign In</h2>
                 <div class="my-2 d-flex justify-content-center">
-                    <input type="text"  placeholder="Email" id="email">
+                    <input type="text"  placeholder="Username" id="userName">
                 </div>
                 <div class="my-2 d-flex justify-content-center">
                     <input type="password"  id="password" placeholder="Password" class="my-2">
@@ -51,10 +51,10 @@
     <script>
         $(document).on("click","#login",function(){
             console.log('click')
-            let email = $('#email').val();
+            let userName = $('#userName').val();
             let password = $('#password').val();
             let formData = new FormData();
-            formData.append("email",email);
+            formData.append("userName",userName);
             formData.append("password",password);
 
             $.ajax({
@@ -77,7 +77,7 @@
                         })
                     }else{
                         Swal.fire({
-                            title:"Email หรือ Password ไม่ถูกต้อง",
+                            title:"Username หรือ Password ไม่ถูกต้อง",
                             icon:"error",
                             timer:1000,
                             showConfirmButton:false,

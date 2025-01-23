@@ -25,19 +25,26 @@
             <div class="card-body py-5">
                 <h2 class="my-5 text-center">Sign Up</h2>
                 <div class="my-2 d-flex justify-content-center">
-                    <input type="text"  placeholder="firstName" id="firstName">
+                    <input type="text" placeholder="firstName" id="firstName">
                 </div>
                 <div class="my-2 d-flex justify-content-center">
-                    <input type="text"  placeholder="lastName" id="lastName">
+                    <input type="text" placeholder="lastName" id="lastName">
                 </div>
                 <div class="my-2 d-flex justify-content-center">
-                    <input type="email"  placeholder="Email" id="email">
+                    <input type="text" placeholder="Username" id="userName">
                 </div>
                 <div class="my-2 d-flex justify-content-center">
-                    <input type="password"  id="password" placeholder="Password" class="my-2">
+                    <input type="password" id="password" placeholder="Password" class="my-2">
                 </div>
                 <div class="my-2 d-flex justify-content-center">
-                    <input type="phone"  placeholder="Tel" id="tel">
+                    <select name="" id="department" class="">
+                        <option selected>โปรดเลือกแผนก</option>
+                        <option value="doctor">หมอ</option>
+                        <option value="nurse">พยาบาล</option>
+                        <option value="finance">การเงิน</option>
+                        <option value="accounting">การบัญชี</option>
+
+                    </select>
                 </div>
                 <div class="my-2 d-flex justify-content-center">
                     <button class="my-2 py-2" id="SignUp">Sign Up</button>
@@ -54,51 +61,52 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).on("click","#SignUp",function(){
+        $(document).on("click", "#SignUp", function() {
             let firstName = $('#firstName').val();
             let lastName = $('#lastName').val();
-            let email = $('#email').val();
+            let userName = $('#userName').val();
             let password = $('#password').val();
-            let tel = $('#tel').val()
+            let department = $('#department').val()
             let formData = new FormData();
-            formData.append("firstName",firstName);
-            formData.append("lastName",lastName);
-            formData.append("email",email);
-            formData.append("password",password);
-            formData.append("tel",tel);
+            formData.append("firstName", firstName);
+            formData.append("lastName", lastName);
+            formData.append("userName", userName);
+            formData.append("password", password);
+            formData.append("department", department);
 
             $.ajax({
-                url:"./backend/signUpUser.php",
-                type:"POST",
-                data:formData,
-                dataType:"text",
-                contentType:false,
-                processData:false,
-                success:function(res){
-                    if(res == "200"){
+                url: "./backend/signUpUser.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    console.log(res)
+                    if (res.status == "200") {
                         Swal.fire({
-                            title:"สมัครสมาชิกเสร็จสิ้น",
-                            icon:"success",
-                            timer:1000,
-                            showConfirmButton:false
+                            title: "สมัครสมาชิกเสร็จสิ้น",
+                            icon: "success",
+                            timer: 1000,
+                            showConfirmButton: false
                         }).then(() => {
                             window.location.href = "signIn.php";
                         })
-                    }else if(res == "403"){
+                    } else if (res.status == "403") {
                         Swal.fire({
-                            title:"Email นี้ถูกใช้ไปแล้วโปรดทำการ Login",
-                            icon:"error",
-                            timer:1000,
-                            showConfirmButton:false,
-                            position:"top-end"
+                            title: "Username นี้ถูกใช้ไปแล้ว",
+                            icon: "error",
+                            timer: 1000,
+                            showConfirmButton: false,
+
                         })
-                    }else{
+                    } else {
                         Swal.fire({
-                            title:"เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง",
-                            icon:"error",
-                            timer:1000,
-                            showConfirmButton:false,
-                            position:"top-end"
+                            title: "เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง",
+                            icon: "error",
+                            timer: 1000,
+                            showConfirmButton: false,
+
                         })
                     }
                 }

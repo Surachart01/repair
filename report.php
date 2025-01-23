@@ -1,17 +1,19 @@
 <?php
-include("./include/connect.php");
-session_start();
-if (!isset($_SESSION['auth'])) {
-    header("Location: ./SignIn.php");
+try {
+    include("./include/connect.php");
+    session_start();
+    if (!isset($_SESSION['auth'])) {
+        header("Location: ./SignIn.php");
+    }
+
+    $userId = $_SESSION['auth']->empId;
+    $sqlProblem = "SELECT * FROM repair  INNER JOIN product ON product.productId = repair.productId WHERE empId = '$userId'";
+    $qProblem = $db->query($sqlProblem);
+
+} catch (\Throwable $th) {
+    echo $th;
 }
-$userId = $_SESSION['auth']->id;
-$role = $_SESSION['auth']->role;
-if ($userId == 1) {
-    $sqlProblem = "SELECT * FROM problems";
-} else {
-    $sqlProblem = "SELECT * FROM problems  WHERE userId = $userId";
-}
-$qProblem = $db->query($sqlProblem);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,11 +43,6 @@ $qProblem = $db->query($sqlProblem);
                 <a href="send.php" class="mx-3 itemNav ">แจ้งซ่อม</a>
                 <a href="report.php" class="mx-3 itemNav navActive">รายการส่งซ่อม</a>
                 <a href="profile.php" class="mx-3 itemNav">โปรไฟล์</a>
-                <?php
-                if ($_SESSION['auth']->role == '9') { ?>
-                    <a href="member.php" class="mx-3 itemNav">ผู้ใช้งาน</a>
-                <?php  }
-                ?>
                 <a href="./backend/signOut.php" class="mx-3 itemNav">ออกจากระบบ</a>
             </div>
         </div>
@@ -66,7 +63,7 @@ $qProblem = $db->query($sqlProblem);
                     <thead>
                         <tr>
                             <th class="text-center">วันที่</th>
-                            <th class="text-center">วัสดุคอมพิวเตอร์</th>
+                            <th class="text-center">ชื่อวัสดุ</th>
                             <th class="text-center">หมายเลขครุภัณฑ์</th>
                             <th class="text-center">ประเภท</th>
                             <th class="text-center">หน่วยงาน</th>
@@ -76,36 +73,38 @@ $qProblem = $db->query($sqlProblem);
                     </thead>
                     <tbody>
                         <?php
-                        while ($item = $qProblem->fetch_object()) {
-                            $type = $item->type == 1 ? "อุปกรณ์อิเล็กทรอนิก" : "อุปกรณ์สำนักงาน";
-                            $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
-                            $state = $item->state == 1 ? "รับแจ้ง" : ($item->state == 2 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
-                            $color = $item->state == 1 ? 'bg-danger' : ($item->state == 2 ? 'bg-warning' : 'bg-success');
-                        ?>
-                            <tr>
-                                <td><?php echo date("d-m-Y", strtotime($item->date)); ?></td>
-                                <td><?php echo $item->itemName ?></td>
-                                <td><?php echo $item->itemCode ?></td>
-                                <td><?php echo $type ?></td>
-                                <td><?php echo $depart ?></td>
-                                <td>
-                                    <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary me-2" data-id="<?php echo $item->id ?>" id="detail">รายละเอียด</button>
-                                    <?php if ($item->state == 1) { ?>
-                                        <button class="btn btn-danger me-2" data-id="<?php echo $item->id ?>" id="delete">ลบ</button>
-                                        <button class="btn btn-warning" data-id="<?php echo $item->id ?>" id="edit">แก้ไข</button>
-                                    <?php } ?>
+                        if ($qProblem->num_rows != 0) {
+                            while ($item = $qProblem->fetch_object()) {
 
-                                    <?php
-                                    if ($item->state != 3 && $role == '9') {
-                                    ?>
-                                        <button class="btn btn-success" data-id="<?php echo $item->id ?>" data-state="<?php echo $item->state ?>" id="state">Update สถานะ</button>
-                                    <?php } ?>
-                                </td>
-                            </tr>
+                                // $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
+                                $state = $item->state == 0 ? "รับแจ้ง" : ($item->state == 1 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
+                                $color = $item->state == 0 ? 'bg-danger' : ($item->state == 1 ? 'bg-warning' : 'bg-success');
+                        ?>
+                                <tr>
+                                    <td><?php echo date("d-m-Y", strtotime($item->date)); ?></td>
+                                    <td><?php echo $item->productName ?></td>
+                                    <td><?php echo $item->productId ?></td>
+                                    <td><?php echo $item->type ?></td>
+                                    <td><?php echo $item->department ?></td>
+                                    <td>
+                                        <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary me-2" data-id="<?php echo $item->repairId ?>" id="detail">รายละเอียด</button>
+                                        <?php if ($item->state == 0) { ?>
+                                            <button class="btn btn-danger me-2" data-id="<?php echo $item->repairId ?>" id="delete">ลบ</button>
+                                            <button class="btn btn-warning" data-id="<?php echo $item->repairId ?>" id="edit">แก้ไข</button>
+                                        <?php } ?>
+
+                                        <?php
+                                        if ($item->state != 3 && $role == '9') {
+                                        ?>
+                                            <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
                         <?php
+                            }
                         }
                         ?>
 
@@ -130,7 +129,7 @@ $qProblem = $db->query($sqlProblem);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
+    </script>
     <script>
         let table = new DataTable('#myTable');
 
@@ -253,26 +252,26 @@ $qProblem = $db->query($sqlProblem);
                                 }).then(() => {
                                     if (res.dataProblem.state == 3) {
                                         emailjs.init("UaTrl6cBf3AKhFTYa");
-                                    const templateParams = {
-                                        NameOfSystem: "ระบบแจ้งซ่อม",
-                                        to_name: res.dataUser.firstName + " " + res.dataUser.lastName,
-                                        ID: res.dataProblem.itemCode,
-                                        email: res.dataUser.email,
-                                    };
+                                        const templateParams = {
+                                            NameOfSystem: "ระบบแจ้งซ่อม",
+                                            to_name: res.dataUser.firstName + " " + res.dataUser.lastName,
+                                            ID: res.dataProblem.itemCode,
+                                            email: res.dataUser.email,
+                                        };
 
-                                    emailjs.send("service_kbfcmbv", "template_o25hr9m", templateParams)
-                                        .then((response) => {
-                                            console.log("Success!", response.status, response.text);
-                                            window.location.href = "report.php";
-                                        })
-                                        .catch((error) => {
-                                            console.error("Failed...", error);
-                                        });
-                                    }else{
+                                        emailjs.send("service_kbfcmbv", "template_o25hr9m", templateParams)
+                                            .then((response) => {
+                                                console.log("Success!", response.status, response.text);
+                                                window.location.href = "report.php";
+                                            })
+                                            .catch((error) => {
+                                                console.error("Failed...", error);
+                                            });
+                                    } else {
                                         window.location.href = "report.php";
                                     }
-                                    
-                                    
+
+
                                 })
                             } else {
                                 Swal.fire({
@@ -290,17 +289,9 @@ $qProblem = $db->query($sqlProblem);
 
         $(document).on("click", "#btnEdit", function() {
             let id = $(this).data('id');
-            let accessory = $('#accessory').val();
-            let code = $('#code').val();
-            let type = $('#type').val();
-            let department = $('#department').val();
             let description = $('#description').val();
             let formData = new FormData();
             formData.append("id", id);
-            formData.append("accessory", accessory);
-            formData.append("code", code);
-            formData.append("type", type);
-            formData.append("department", department);
             formData.append("description", description);
             $.ajax({
                 url: "./backend/editProblem.php",

@@ -1,25 +1,41 @@
 <?php  
+try {
     include("../include/connect.php");
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
-    $email = $_POST['email'];
+    $userName = $_POST['userName'];
     $password = $_POST['password'];
-    $tel = $_POST['tel'];
+    $department = $_POST['department'];
 
-    
-    $sqlCheckEmail = "SELECT * FROM users WHERE email = '$email'";
+    $sqlCheckEmail = "SELECT * FROM employee WHERE username = '$userName'";
     $qCheckEmail = $db->query($sqlCheckEmail);
     if($qCheckEmail->num_rows != 0){
-        echo '403';
+        echo json_encode(['status' => '403' , 'message' => 'Username is match in database']);
     }else{
+        
+        $sqlGetMaxEmpId = "SELECT MAX(empId) as maxEmpId FROM employee";
+        $qGetMaxEmpId = $db->query($sqlGetMaxEmpId);
+        $row = $qGetMaxEmpId->fetch_assoc();
+        $maxEmpId = $row['maxEmpId'];
+        
+        if ($maxEmpId) {
+            $newEmpIdNum = (int)substr($maxEmpId, 1) + 1;
+            $newEmpId = 'E' . str_pad($newEmpIdNum, 3, '0', STR_PAD_LEFT);
+        } else {
+            $newEmpId = 'E001';
+        }
         $passwordEncrypt = md5($password);
-        $sqlAddUser = "INSERT INTO users (firstName , lastName , email , password ,role,tel) VALUES ('$firstName','$lastName','$email','$passwordEncrypt','1','$tel')";
+        $sqlAddUser = "INSERT INTO employee (empId ,firstName , lastName , username , password , department) VALUES ('$newEmpId','$firstName','$lastName','$userName','$passwordEncrypt','$department')";
         $qAddUser = $db->query($sqlAddUser);
         if($qAddUser){
-            echo '200';
+            echo json_encode(['status' => '200' , 'message' => 'Insert User complate']);
         }else{
-            echo '500';
+            echo json_encode(['status' => '400' , 'message' => 'connot Insert User']);
         }
         
     }
+} catch (\Throwable $th) {
+    echo json_encode(['status' => '500' , 'message' => "$th"]);
+}
+    
 ?>
