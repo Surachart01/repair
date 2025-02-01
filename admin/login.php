@@ -72,7 +72,7 @@
             <div class="card-body px-5">
                 <p class="login mt-4">LOGIN AS ADMIN</p>
                 <label for="">EMAIL</label>
-                <input type="email" class="form-control mb-4" placeholder="Email">
+                <input type="email" class="form-control mb-4" placeholder="Email" id="email">
 
                 <label for="">PASSWORD</label>
                 <div class="input-group ">
@@ -132,6 +132,7 @@
                 url: "./backend/checkLogin.php",
                 type: "POST",
                 data: formData,
+                dataType:"json",
                 contentType:false,
                 processData:false,
                 success: function(res) {

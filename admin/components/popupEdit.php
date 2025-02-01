@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    include("../include/connect.php");
+    include("../../include/connect.php");
     $id = $_POST['id'];
     $sqlGetProblem = "SELECT * FROM repair INNER JOIN product ON product.productId = repair.productId WHERE repairId = '$id'";
     $qGetProblem = $db->query($sqlGetProblem);

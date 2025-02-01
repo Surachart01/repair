@@ -87,6 +87,8 @@ if (!isset($_SESSION['auth'])) {
                                 <textarea class="form-control" id="description" aria-label="With textarea"></textarea>
                             </div>
                         </div>
+                        <label for=""> อีเมลรับการแจ้งเตือน</label>
+                        <input type="email" placeholder="email" id="email" class="form-control">
                         <button class="btn btn-success my-3 form-control" id="btnSubmit" disabled>บันทึก</button>
 
                     </div>
@@ -150,9 +152,11 @@ if (!isset($_SESSION['auth'])) {
         $(document).on("click", "#btnSubmit", function() {
             let productId = $('#productId').val();
             let description = $('#description').val();
+            let email = $("#email").val();
             let formData = new FormData();
             formData.append("productId", productId);
             formData.append("description", description);
+            formData.append("email",email);
             $.ajax({
                 url: "./backend/addProblum.php",
                 type: "POST",

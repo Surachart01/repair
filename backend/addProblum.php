@@ -4,6 +4,7 @@ try {
     include("../include/connect.php");
     $productId = $_POST['productId'];
     $description = $_POST['description'];
+    $email = $_POST['email'];
     $userId = $_SESSION['auth']->empId;
     $date = date("Y-m-d");
 
@@ -18,7 +19,7 @@ try {
     } else {
         $newRepairId = 'N0001';
     }
-    $insertProblem = "INSERT INTO repair (repairId,empId,productId,description,date,state) VALUES ('$newRepairId','$userId','$productId','$description','$date','0')";
+    $insertProblem = "INSERT INTO repair (repairId,empId,productId,description,date,state,email) VALUES ('$newRepairId','$userId','$productId','$description','$date','0','$email')";
     $qInsertProblem = $db->query($insertProblem);
     if ($qInsertProblem) {
         echo json_encode(['status' => '200', 'message' => 'Add Problem Successfully']);

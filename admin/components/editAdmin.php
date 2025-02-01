@@ -1,12 +1,15 @@
+<?php 
+    include("../../include/connect.php");
 
-<form  id="formEditAdmin">
+    $adminId = $_POST['adminId'];
+    $sqlAdmin = "SELECT * FROM admin WHERE adminId = '$adminId'";
+    $qAdmin = $db->query($sqlAdmin);
+    $item = $qAdmin->fetch_object();
+?>
 <label for="">ชื่อจริง</label>
-<input type="text" class="form-control" required id="firstName">
+<input type="text" class="form-control" required value="<?= $item->firstName?>" id="firstName">
 <label for="">นามสกุล</label>
-<input type="text" class="form-control" required id="lastName">
+<input type="text" class="form-control" required value="<?= $item->lastName  ?>" id="lastName">
 <label for="">email</label>
-<input type="email" class="form-control" required id="email">
-<label for="">รหัสผ่าน</label>
-<input type="password" class="form-control" required id="password">
-<button type="submit" class="btn btn-success mt-2 form-control" id="btnInsertE">เพิ่มAdmin</button>
-</form>
+<input type="email" class="form-control" required value="<?= $item->email?>" id="email">
+<button type="submit" class="btn btn-success mt-2 form-control" id="btnEditAdmin" data-id="<?= $adminId ?>">แก้ไข Admin</button>

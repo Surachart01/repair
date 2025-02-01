@@ -290,9 +290,11 @@ try {
         $(document).on("click", "#btnEdit", function() {
             let id = $(this).data('id');
             let description = $('#description').val();
+            let email = $('#email').val();
             let formData = new FormData();
             formData.append("id", id);
             formData.append("description", description);
+            formData.append("email",email);
             $.ajax({
                 url: "./backend/editProblem.php",
                 type: "POST",

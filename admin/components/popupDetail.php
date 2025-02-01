@@ -1,7 +1,7 @@
 <?php
 try {
     session_start();
-    include("../include/connect.php");
+    include("../../include/connect.php");
     $id = $_POST['id'];
     $sqlProblem = "SELECT * FROM repair INNER JOIN employee ON employee.empId = repair.empId INNER JOIN product ON product.productId = repair.productId  WHERE repair.repairId = '$id'";
     $qProblem = $db->query($sqlProblem);

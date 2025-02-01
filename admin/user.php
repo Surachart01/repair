@@ -1,5 +1,5 @@
 <?php
-// include("./auth/auth.php");
+include("./auth/auth.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +73,7 @@
             </div>
             <a href="./"><i class="bi bi-house-door"></i> หน้าหลัก</a>
             <a href="./user.php" class="active"><i class="bi bi-person"></i> ผู้ใช้งาน</a>
-            <a href="./repairHistory.php"><i class="bi bi-bar-chart"></i> ปวะวัติแจ้งซ่อม</a>
+            <a href="./repairHistory.php"><i class="bi bi-bar-chart"></i> ประวัติแจ้งซ่อม</a>
             <a href="./product.php"><i class="bi bi-gear"></i> ครุภัณฑ์</a>
             <a href="./backend/logout.php"><i class="bi bi-box-arrow-left"></i> ออกจากระบบ</a>
         </nav>
@@ -122,6 +122,146 @@
     <script>
         let myTable = new DataTable("#myTable")
 
+        $(document).on("click", ".bt-del-admin", function() {
+
+            console.log("hh")
+            Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: "คุณจะไม่สามารถย้อนกลับได้!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let adminId = $(this).data('id');
+                    $.ajax({
+                        url: './backend/deleteAdmin.php',
+                        type: 'POST',
+                        data: {
+                            adminId: adminId
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            console.log(response)
+                            if (response.status == '200') {
+                                Swal.fire({
+                                    title: 'ลบแล้ว!',
+                                    text: 'ข้อมูลของคุณถูกลบแล้ว.',
+                                    icon: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'เกิดข้อผิดพลาด!',
+                                    text: 'ไม่สามารถลบข้อมูลได้.',
+                                    icon: 'error',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+        })
+
+        $(document).on("click", ".bt-del-emp", function() {
+
+            console.log("hh")
+            Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: "คุณจะไม่สามารถย้อนกลับได้!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let empId = $(this).data('id');
+                    $.ajax({
+                        url: './backend/deleteEmp.php',
+                        type: 'POST',
+                        data: {
+                            empId: empId
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            console.log(response)
+                            if (response.status == '200') {
+                                Swal.fire({
+                                    title: 'ลบแล้ว!',
+                                    text: 'ข้อมูลของคุณถูกลบแล้ว.',
+                                    icon: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'เกิดข้อผิดพลาด!',
+                                    text: 'ไม่สามารถลบข้อมูลได้.',
+                                    icon: 'error',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+        })
+
+        // edit admin
+        $(document).on("click", "#btnEditAdmin", function() {
+            let adminId = $(this).data('id');
+            let firstName = $('#firstName').val()
+            let lastName = $('#lastName').val()
+            let email = $('#email').val()
+            let formData = new FormData()
+            formData.append("firstName", firstName)
+            formData.append("lastName", lastName)
+            formData.append("email", email)
+
+            $.ajax({
+                url: "./backend/editAdmin.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    if (res.status == '200') {
+                        Swal.fire({
+                            title: "แก้ไขข้อมูล Admin เสร็จสิ้น",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.reload()
+                        })
+                    } else {
+                        Swal.fire({
+                            title: "ไม่สามารถแก้ไขข้อมูล Admin ได้",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.reload()
+                        })
+                    }
+                }
+            })
+        })
+
         // component edit employee 
         $(document).on("click", ".bt-edit-emp", function() {
             let empId = $(this).data("id")
@@ -147,19 +287,21 @@
         })
 
         // component edit employee 
-        $(document).on("click", "#bt-edit-admin", function() {
-            let empId = $(this).data("id")
+        $(document).on("click", ".bt-edit-admin", function() {
+            let adminId = $(this).data("id")
             let formData = new FormData();
-            formData.append("empId", empId)
+            console.log(adminId)
+            formData.append("adminId", adminId)
 
             $.ajax({
                 url: "./components/editAdmin.php",
                 type: "POST",
                 data: formData,
-                dataType: "json",
+                dataType: "html",
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    console.log(res)
                     Swal.fire({
                         title: "แก้ไขข้อมูล",
                         html: res,
@@ -258,15 +400,15 @@
                         }).then(() => {
                             window.location.reload()
                         })
-                    }else{
+                    } else {
                         Swal.fire({
-                        title:"เกิดข้อผิดตลาด",
-                        icon:"error",
-                        showConfirmButton:false,
-                        timer:2000
-                    }).then(() => {
-                        window.location.reload()
-                    })
+                            title: "เกิดข้อผิดตลาด",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.reload()
+                        })
                     }
 
                 }

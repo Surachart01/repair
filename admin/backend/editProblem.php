@@ -1,7 +1,7 @@
 <?php 
     try {
         session_start();
-        include("../include/connect.php");
+        include("../../include/connect.php");
         $id = $_POST['id'];
         $email = $_POST['email'];
         $description = $_POST['description'];
