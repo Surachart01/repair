@@ -7,7 +7,7 @@
         $sql = "SELECT * FROM product WHERE productId = '$productId' AND department = '$emp->department'";
         $qSql = $db->query($sql);
         if($qSql->num_rows > 0){
-            $sqlCheck = "SELECT * FROM repair WHERE productId = '$productId' AND state != 3";
+            $sqlCheck = "SELECT * FROM repair WHERE productId = '$productId' AND state != 2";
             $qCheck = $db->query($sqlCheck);
             if($qCheck->num_rows <= 0){
                 $data = $qSql->fetch_object();
