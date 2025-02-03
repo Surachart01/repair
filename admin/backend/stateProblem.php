@@ -6,8 +6,13 @@
         $id = $_POST['id'];
         $state = $_POST['state'];
         $state = $state == "0" ? "1" : ($state == "1" ? "2" : "0");
+        $date = date('Y-m-d');
         $sqlUpdateProblem = "UPDATE repair SET state = '$state' WHERE repairId = '$id'";
         $qUpdateProblem = $db->query($sqlUpdateProblem);   
+        if($state == 2){
+            $sqlDateEnd = "UPDATE repair SET dateEnd = '$date' WHERE repairId = '$id'";
+            $qDateEnd = $db->query($sqlDateEnd);
+        }
         if($qUpdateProblem){
             $sqlProblem = "SELECT * FROM repair WHERE repairId = '$id'";
             $qProblem = $db->query($sqlProblem);

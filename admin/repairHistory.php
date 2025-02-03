@@ -20,6 +20,8 @@ $qRepair = $db->query($sqlRepair);
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
     <script src="https:////cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -74,8 +76,8 @@ $qRepair = $db->query($sqlRepair);
             </div>
             <a href="./"><i class="bi bi-house-door"></i> หน้าหลัก</a>
             <a href="./user.php"><i class="bi bi-person"></i> ผู้ใช้งาน</a>
-            <a href="./repairHistory.php" class="active" ><i class="bi bi-bar-chart"></i> ประวัติแจ้งซ่อม</a>
-            <a href="./product.php" ><i class="bi bi-gear"></i> ครุภัณฑ์</a>
+            <a href="./repairHistory.php" class="active"><i class="bi bi-bar-chart"></i> ประวัติแจ้งซ่อม</a>
+            <a href="./product.php"><i class="bi bi-gear"></i> ครุภัณฑ์</a>
             <a href="./backend/logout.php"><i class="bi bi-box-arrow-left"></i> ออกจากระบบ</a>
         </nav>
 
@@ -92,63 +94,68 @@ $qRepair = $db->query($sqlRepair);
             <!-- Dashboard Content -->
             <div class="container px-5 my-4">
                 <div class="row">
-                <div class="container">
-                <table id="myTable" class="table">
-                    <thead>
-                        <tr>
-                            <th class="text-center">วันที่</th>
-                            <th class="text-center">ชื่อวัสดุ</th>
-                            <th class="text-center">หมายเลขครุภัณฑ์</th>
-                            <th class="text-center">ประเภท</th>
-                            <th class="text-center">หน่วยงาน</th>
-                            <th class="text-center">สถานะ</th>
-                            <th class="text-center"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($qRepair->num_rows != 0) {
-                            while ($item = $qRepair->fetch_object()) {
-
-                                // $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
-                                $state = $item->state == 0 ? "รับแจ้ง" : ($item->state == 1 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
-                                $color = $item->state == 0 ? 'bg-danger' : ($item->state == 1 ? 'bg-warning' : 'bg-success');
-                        ?>
+                    <div class="container">
+                        <table id="myTable" class="table">
+                            <thead>
                                 <tr>
-                                    <td><?php echo date("d-m-Y", strtotime($item->date)); ?></td>
-                                    <td><?php echo $item->productName ?></td>
-                                    <td><?php echo $item->productId ?></td>
-                                    <td>
-                                        <?= ($item->type == "PC") ? "เครื่องคอมพิวเตอร์" : (($item->type == "Monitor") ? "หน้าจอคอมพิวเตอร์" : (($item->type == "UPS") ? "เครื่องสำรองไฟ" : (($item->type == "Printer") ? "เครื่องปริ้นเตอร์" : "ไม่ทราบประเภท"))); ?>
-                                    </td>
-                                    <td>
-                                        <?= ($item->department == "doctor") ? "หมอ" : (($item->department == "nurse") ? "พยาบาล" : (($item->department == "finance") ? "การเงิน" : (($item->department == "accounting") ? "การบัญชี" : "ไม่ทราบแผนก"))); ?>
-                                    </td>
-                                    <td>
-                                        <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary me-2" data-id="<?php echo $item->repairId ?>" id="detail">รายละเอียด</button>
-                                        <?php if ($item->state == 0) { ?>
-                                            <button class="btn btn-danger me-2" data-id="<?php echo $item->repairId ?>" id="delete">ลบ</button>
-                                            <button class="btn btn-warning" data-id="<?php echo $item->repairId ?>" id="edit">แก้ไข</button>
-                                        <?php } ?>
-
-                                        <?php
-                                        if ($item->state != 2) {
-                                        ?>
-                                            <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
-                                        <?php } ?>
-                                    </td>
+                                    <th class="text-center">วันที่</th>
+                                    <th class="text-center">ชื่อวัสดุ</th>
+                                    <th class="text-center">หมายเลขครุภัณฑ์</th>
+                                    <th class="text-center">ประเภท</th>
+                                    <th class="text-center">หน่วยงาน</th>
+                                    <th class="text-center">สถานะ</th>
+                                    <th class="text-center"></th>
                                 </tr>
-                        <?php
-                            }
-                        }
-                        ?>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if ($qRepair->num_rows != 0) {
+                                    while ($item = $qRepair->fetch_object()) {
 
-                    </tbody>
-                </table>
-            </div>
+                                        // $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
+                                        $state = $item->state == 0 ? "รับแจ้ง" : ($item->state == 1 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
+                                        $color = $item->state == 0 ? 'bg-danger' : ($item->state == 1 ? 'bg-warning' : 'bg-success');
+                                ?>
+                                        <tr>
+                                            <td><?php echo date("d-m-Y", strtotime($item->date)); ?></td>
+                                            <td><?php echo $item->productName ?></td>
+                                            <td><?php echo $item->productId ?></td>
+                                            <td>
+                                                <?= ($item->type == "PC") ? "เครื่องคอมพิวเตอร์" : (($item->type == "Monitor") ? "หน้าจอคอมพิวเตอร์" : (($item->type == "UPS") ? "เครื่องสำรองไฟ" : (($item->type == "Printer") ? "เครื่องปริ้นเตอร์" : "ไม่ทราบประเภท"))); ?>
+                                            </td>
+                                            <td>
+                                                <?= ($item->department == "doctor") ? "หมอ" : (($item->department == "nurse") ? "พยาบาล" : (($item->department == "finance") ? "การเงิน" : (($item->department == "accounting") ? "การบัญชี" : "ไม่ทราบแผนก"))); ?>
+                                            </td>
+                                            <td>
+                                                <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary me-2" data-id="<?php echo $item->repairId ?>" id="detail">รายละเอียด</button>
+                                                <?php if ($item->state == 0) { ?>
+                                                    <button class="btn btn-danger me-2" data-id="<?php echo $item->repairId ?>" id="delete">ลบ</button>
+                                                    <button class="btn btn-warning" data-id="<?php echo $item->repairId ?>" id="edit">แก้ไข</button>
+                                                <?php } ?>
+
+                                                <?php
+                                                if ($item->state != 2) {
+                                                ?>
+                                                    <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
+
+                                                <?php } ?>
+
+                                                <a href="../pdf.php?Key=<?= $item->repairId ?>" class="btn btn-warning">
+                                                    <i class="bi bi-printer"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -187,7 +194,6 @@ $qRepair = $db->query($sqlRepair);
                 }
             })
         })
-
     </script>
 </body>
 

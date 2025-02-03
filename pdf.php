@@ -1,5 +1,11 @@
 <?php
 try {
+
+    include("./include/connect.php");
+    $repairId = $_GET['Key'];
+    $sqlData = "SELECT * FROM repair INNER JOIN product ON repair.productId = product.productId WHERE repairId = '$repairId'";
+    $qData = $db->query($sqlData);
+    $data = $qData->fetch_object();
     require_once __DIR__ . '/vendor/autoload.php';
 
     $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
@@ -7,14 +13,16 @@ try {
 
     $html = '
 <style>
-    body { font-family: "Garuda", sans-serif; }
+    body { font-family: "Garuda", sans-serif; line-height: 1.6; }
     table { width: 100%; border-collapse: collapse; border: 1px solid black;}
-    th, td { border: 0px solid black; padding: 8px; text-align: left; }
-    .header { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 10px; }
-    .sub-header { text-align: center; font-size: 14px; margin-bottom: 20px; }
-    .section-title { font-size: 16px; font-weight: bold; background-color: #f2f2f2; padding: 5px; }
-    .signature { text-align: center; margin-top: 30px; }
+    th, td { border: 0px solid black; padding: 12px; text-align: left; }
+    .header { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+    .sub-header { text-align: center; font-size: 14px; margin-bottom: 30px; }
+    .section-title { font-size: 16px; font-weight: bold; background-color: #f2f2f2; padding: 10px; margin-top: 10px; margin-bottom: 10px; }
+    .signature { text-align: center; margin-top: 50px; }
     .checkbox { display: inline-block; width: 12px; height: 12px; border: 1px solid black; margin-right: 5px; }
+    .b {font-weight: bold;}
+    .text-center {text-align:center;}
 </style>
 
 <div class="header">ใบแจ้งซ่อม/รายงานผลการซ่อม/เบิกอะไหล่</div>
@@ -23,22 +31,22 @@ try {
 <table>
     <tr>
         <td><b>ข้อมูลแจ้งซ่อม</b></td>
-        <td>เลขที่แจ้งซ่อม: ______________________</td>
+        <td>เลขที่แจ้งซ่อม:   '.$data->repairId .'</td>
     </tr>
     <tr>
-        <td>วันที่แจ้งซ่อม: ____________________________</td>
-        <td>หน่วยงาน: ____________________________</td>
+        <td>วันที่แจ้งซ่อม:   '.$data->date.'</td>
+        <td>หน่วยงาน:  '.$data->department.'</td>
     </tr>
     <tr>
-        <td>ครุภัณฑ์: ____________________________</td>
-        <td>หมายเลข 7440-_______/_______/_______</td>
+        <td>ครุภัณฑ์:  '.$data->type.'</td>
+        <td>หมายเลข :  '.$data->productId.'</td>
     </tr>
     <tr>
-        <td>ยี่ห้อ/รุ่น: ___________________________</td>
+        <td>ยี่ห้อ/รุ่น:  '.$data->brand.'</td>
         <td>IP: _______________________________</td>
     </tr>
     <tr>
-        <td>วันที่ได้รับ: ____________________________</td>
+        <td>วันที่ได้รับ: ' . (!empty($data->dateEnd) ? $data->dateEnd : '____________________________') . '</td>
         <td>ราคา: __________ ผู้จำหน่าย: _____________</td>
     </tr>
 </table>
@@ -59,52 +67,37 @@ try {
 
 <table>
     <tr>
-        <td class="section-title">ความเห็นของผู้ตรวจสอบช่างคอมพิวเตอร์</td>
-    </tr>
-    <tr>
-        <td>
+        <td width="50%" style="border-right:1px solid black">
+            <div class="b">ความเห็นของผู้ตรวจสอบช่างคอมพิวเตอร์</div>
+            ____________________________________<br>
+            ____________________________________<br>
             ลงชื่อ: ____________________________ <br>
             (นางสาวฐิติภาน์ มากสินธี) <br>
             ตำแหน่ง: นักวิชาการคอมพิวเตอร์ปฏิบัติการ <br>
             วันที่: ____________________________
         </td>
+        <td width="50%"  style="border-left:1px solid black">
+            <div class="b">ความคิดเห็นผู้บริหารเทนโนโลยีสารสนเทศระดับสูง (CIO)</div>
+            ____________________________________<br>
+            ____________________________________<br>
+            ____________________________________<br><br><br><br>
+            ลงชื่อ: ____________________________ <br>
+            <div class="text-center">(นายกัมพล วิบูลย์ศักดิ์สกุล) </div>
+            วันที่: ____________________________
+        </td>
     </tr>
-</table>
-
-<table>
     <tr>
-        <td class="section-title">ความเห็นของหัวหน้างานเทคโนโลยีสารสนเทศ</td>
-    </tr>
-    <tr>
-        <td>
+        <td width="50%"style="border-right:1px solid black; ">
+            <div class="b">ความเห็นของหัวหน้างานเทคโนโลยีสารสนเทศ</div>
+            ____________________________________<br>
+            ____________________________________<br>
             ลงชื่อ: ____________________________ <br>
             (นางฐิติกา เชื้ออินทร์) <br>
             ตำแหน่ง: นักวิชาการคอมพิวเตอร์ปฏิบัติการ <br>
             วันที่: ____________________________
         </td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <td class="section-title">ความเห็นผู้บริหารงานเทคโนโลยีสารสนเทศระดับสูง (CIO)</td>
-    </tr>
-    <tr>
-        <td>
-            ลงชื่อ: ____________________________ <br>
-            (นายอัมพล วิบูลย์ศักดิ์สกุล) <br>
-            ตำแหน่ง: เจ้าราชการเชี่ยวชาญ <br>
-            วันที่: ____________________________
-        </td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <td class="section-title">งานพัสดุ: จัดซื้ออุปกรณ์ให้ศูนย์คอมแล้ว</td>
-    </tr>
-    <tr>
-        <td>
+        <td width="50%" rowspan="2" style="border-left:1px solid black;">
+           <div class="b">งานพัสดุ: จัดซื้ออุปกรณ์ให้ศูนย์คอมแล้ว</div>
             วันที่: ____________________________ <br>
             ราคา: ____________________________ <br>
             กำหนด: ____________________________ <br>
@@ -114,7 +107,25 @@ try {
             วันที่: ____________________________
         </td>
     </tr>
+    
+    <tr>
+        <td class="b" style="border-top:1px solid black">ความเห็นผู้บริหารงานเทคโนโลยีสารสนเทศระดับสูง (CIO)</td>
+    </tr>
+    <tr>
+        <td style="border-right:1px solid black">
+            ลงชื่อ: ____________________________ <br>
+            (นายอัมพล วิบูลย์ศักดิ์สกุล) <br>
+            ตำแหน่ง: เจ้าราชการเชี่ยวชาญ <br>
+            วันที่: ____________________________
+        </td>
+    </tr>
 </table>
+
+
+
+    
+
+
 
 ';
 

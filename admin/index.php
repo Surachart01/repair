@@ -1,5 +1,5 @@
-<?php 
-    include("./auth/auth.php");
+<?php
+include("./auth/auth.php");
 ?>
 <?php
 try {
@@ -7,6 +7,15 @@ try {
     $sqlProblem = "SELECT * FROM repair  INNER JOIN product ON product.productId = repair.productId WHERE repair.state != '2' ";
     $qProblem = $db->query($sqlProblem);
 
+    $sqlEmp = "SELECT * FROM employee";
+    $qEmp = $db->query($sqlEmp);
+
+    $sqlAdmin = "SELECT * FROM admin";
+    $qAdmin = $db->query($sqlAdmin);
+
+    $sqlSP = "SELECT * FROM repair WHERE state = '2'";
+    $qSP = $db->query($sqlSP);
+    
 } catch (\Throwable $th) {
     echo $th;
 }
@@ -14,24 +23,29 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
     <link rel="stylesheet" href="https:////cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
     <style>
         body {
             font-family: 'Kanit', sans-serif;
             background-color: #f8f9fa;
         }
+
         .sidebar {
             height: 100vh;
             background-color: #343a40;
             padding: 10px 0;
             transition: ease-in-out 0.3s all;
         }
+
         .sidebar a {
             color: #adb5bd;
             text-decoration: none;
@@ -40,23 +54,28 @@ try {
             border-radius: 5px;
             width: 200px;
         }
+
         .sidebar a:hover {
             background-color: #495057;
             color: white;
         }
+
         .sidebar .active {
-            background-color:rgb(37, 81, 128);
+            background-color: rgb(37, 81, 128);
             color: white;
         }
+
         .navbar {
             background-color: #343a40;
             color: white;
         }
-        #sidebarToggle:hover{
-            color:rgb(253, 126, 0);
+
+        #sidebarToggle:hover {
+            color: rgb(253, 126, 0);
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="d-flex ">
@@ -65,7 +84,7 @@ try {
                 <h4 class="text-white">ระบบแจ้งซ่อม</h4>
             </div>
             <a href="./" class="active"><i class="bi bi-house-door"></i> หน้าหลัก</a>
-            <a href="./user.php" ><i class="bi bi-person"></i> ผู้ใช้งาน</a>
+            <a href="./user.php"><i class="bi bi-person"></i> ผู้ใช้งาน</a>
             <a href="./repairHistory.php"><i class="bi bi-bar-chart"></i> ประวัติแจ้งซ่อม</a>
             <a href="./product.php"><i class="bi bi-gear"></i> ครุภัณฑ์</a>
             <a href="./backend/logout.php"><i class="bi bi-box-arrow-left"></i> ออกจากระบบ</a>
@@ -88,96 +107,99 @@ try {
                         <div class="card text-white bg-primary shadow">
                             <div class="card-body">
                                 <h5 class="card-title">จำนวนพนักงานทั้งหมด</h5>
-                                <p class="card-text">1,234 คน</p>
+                                <p class="card-text"><?= $qEmp->num_rows; ?> คน</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4 ">
                         <div class="card text-white bg-success shadow">
                             <div class="card-body">
                                 <h5 class="card-title">จำนวน Admin ทั้งหมด</h5>
-                                <p class="card-text">12,345 คน</p>
+                                <p class="card-text"><?= $qAdmin->num_rows ?> คน</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card text-dark bg-warning shadow">
                             <div class="card-body">
                                 <h5 class="card-title">แจ้งซ่อมครุภัณฑ์ (ยังไม่เสร็จ)</h5>
-                                <p class="card-text">567 รายการ</p>
+                                <p class="card-text"><?php  echo $qProblem->num_rows;  ?> รายการ</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card text-white bg-danger shadow">
                             <div class="card-body">
                                 <h5 class="card-title">แจ้งซ่อมครุภัณฑ์ (เสร็จแล้ว)</h5>
-                                <p class="card-text">123 รายการ</p>
+                                <p class="card-text"><?= $qSP->num_rows ?> รายการ</p>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-12">
-            <div class="container">
-                <table id="myTable" class="table">
-                    <thead>
-                        <tr>
-                            <th class="text-center">วันที่</th>
-                            <th class="text-center">ชื่อวัสดุ</th>
-                            <th class="text-center">หมายเลขครุภัณฑ์</th>
-                            <th class="text-center">ประเภท</th>
-                            <th class="text-center">หน่วยงาน</th>
-                            <th class="text-center">สถานะ</th>
-                            <th class="text-center"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($qProblem->num_rows != 0) {
-                            while ($item = $qProblem->fetch_object()) {
+                    <div class="col-12">
+                        <div class="container">
+                            <table id="myTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">วันที่</th>
+                                        <th class="text-center">ชื่อวัสดุ</th>
+                                        <th class="text-center">หมายเลขครุภัณฑ์</th>
+                                        <th class="text-center">ประเภท</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">สถานะ</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($qProblem->num_rows != 0) {
+                                        while ($item = $qProblem->fetch_object()) {
 
-                                // $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
-                                $state = $item->state == 0 ? "รับแจ้ง" : ($item->state == 1 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
-                                $color = $item->state == 0 ? 'bg-danger' : ($item->state == 1 ? 'bg-warning' : 'bg-success');
-                        ?>
-                                <tr>
-                                    <td><?php echo date("d-m-Y", strtotime($item->date)); ?></td>
-                                    <td><?php echo $item->productName ?></td>
-                                    <td><?php echo $item->productId ?></td>
-                                    <td><?php echo $item->type ?></td>
-                                    <td><?php echo $item->department ?></td>
-                                    <td>
-                                        <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary me-2" data-id="<?php echo $item->repairId ?>" id="detail">รายละเอียด</button>
-                                        <?php if ($item->state == 0) { ?>
-                                            <button class="btn btn-danger me-2" data-id="<?php echo $item->repairId ?>" id="delete">ลบ</button>
-                                            <button class="btn btn-warning" data-id="<?php echo $item->repairId ?>" id="edit">แก้ไข</button>
-                                        <?php } ?>
+                                            // $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
+                                            $state = $item->state == 0 ? "รับแจ้ง" : ($item->state == 1 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
+                                            $color = $item->state == 0 ? 'bg-danger' : ($item->state == 1 ? 'bg-warning' : 'bg-success');
+                                    ?>
+                                            <tr>
+                                                <td><?php echo date("d-m-Y", strtotime($item->date)); ?></td>
+                                                <td><?php echo $item->productName ?></td>
+                                                <td><?php echo $item->productId ?></td>
+                                                <td><?php echo $item->type ?></td>
+                                                <td><?php echo $item->department ?></td>
+                                                <td>
+                                                    <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary me-2" data-id="<?php echo $item->repairId ?>" id="detail">รายละเอียด</button>
+                                                    <?php if ($item->state == 0) { ?>
+                                                        <button class="btn btn-danger me-2" data-id="<?php echo $item->repairId ?>" id="delete">ลบ</button>
+                                                        <button class="btn btn-warning" data-id="<?php echo $item->repairId ?>" id="edit">แก้ไข</button>
+                                                    <?php } ?>
 
-                                        <?php
-                                        if ($item->state != 2) {
-                                        ?>
-                                            <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
-                                        <?php } ?>
-                                    </td>
-                                </tr>
-                        <?php
-                            }
-                        }
-                        ?>
+                                                    <?php
+                                                    if ($item->state != 2) {
+                                                    ?>
+                                                        <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
+                                                    <?php } ?>
+                                                    <a href="../pdf.php?Key=<?= $item->repairId ?>" class="btn btn-warning">
+                                                        <i class="bi bi-printer"></i> 
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
 
-                    </tbody>
-                </table>
-            </div>
+                                </tbody>
+                            </table>
+                        </div>
 
-        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,7 +225,7 @@ try {
     <script>
         let table = new DataTable('#myTable');
         // Sidebar toggle
-        document.getElementById('sidebarToggle').addEventListener('click', function () {
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('d-none');
         });
@@ -258,7 +280,7 @@ try {
             let formData = new FormData();
             formData.append("id", id);
             formData.append("description", description);
-            formData.append("email",email);
+            formData.append("email", email);
             $.ajax({
                 url: "./backend/editProblem.php",
                 type: "POST",
@@ -400,7 +422,7 @@ try {
                 }
             })
         })
-
     </script>
 </body>
+
 </html>
