@@ -7,7 +7,7 @@ try {
     $qProblem = $db->query($sqlProblem);
     $item = $qProblem->fetch_object();
     // $type = $item->type == 1 ? "อุปกรณ์อิเล็กทรอนิก" : "อุปกรณ์สำนักงาน";
-    $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
+    // $depart = $item->depart == 1 ? "ฝ่ายการเงิน" : ($item->depart == 2 ? "ฝ่ายธุรการ" : "ฝ่ายบัญชี");
     $state = $item->state == 0 ? "รับแจ้ง" : ($item->state == 1 ? "กำลังดำเนินการ" : "เสร็จสิ้น");
 } catch (\Throwable $th) {
     echo $th;
