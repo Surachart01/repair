@@ -5,6 +5,8 @@ body {
     font-family: "Kanit", serif;
     font-weight: 400;
     font-style: normal;
+    background: url('../images/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 .navbar{

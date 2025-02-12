@@ -15,7 +15,6 @@ try {
 
     $sqlSP = "SELECT * FROM repair WHERE state = '2'";
     $qSP = $db->query($sqlSP);
-    
 } catch (\Throwable $th) {
     echo $th;
 }
@@ -125,7 +124,7 @@ try {
                         <div class="card text-dark bg-warning shadow">
                             <div class="card-body">
                                 <h5 class="card-title">แจ้งซ่อมครุภัณฑ์ (ยังไม่เสร็จ)</h5>
-                                <p class="card-text"><?php  echo $qProblem->num_rows;  ?> รายการ</p>
+                                <p class="card-text"><?php echo $qProblem->num_rows;  ?> รายการ</p>
                             </div>
 
                         </div>
@@ -183,10 +182,21 @@ try {
                                                     <?php
                                                     if ($item->state != 2) {
                                                     ?>
-                                                        <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
+                                                        <?php
+                                                        $state = $item->state; // ดึงค่า state จากฐานข้อมูลหรือ Object
+                                                        $buttonText = ($state == 0) ? "กำลังดำเนินการ" : "ซ่อมเสร็จสิ้น";
+                                                        ?>
+
+                                                        <button class="btn btn-success"
+                                                            data-id="<?php echo $item->repairId; ?>"
+                                                            data-state="<?php echo $state; ?>"
+                                                            id="state">
+                                                            <?php echo $buttonText; ?>
+                                                        </button>
+
                                                     <?php } ?>
                                                     <a href="../pdf.php?Key=<?= $item->repairId ?>" class="btn btn-warning">
-                                                        <i class="bi bi-printer"></i> 
+                                                        <i class="bi bi-printer"></i>
                                                     </a>
                                                 </td>
                                             </tr>

@@ -24,7 +24,7 @@
     <div class="page">
         <div class="card">
             <div class="card-body py-5">
-                <h2 class="my-5 text-center">Sign In</h2>
+                <h2 class="my-5 text-center">Login</h2>
                 <div class="my-2 d-flex justify-content-center">
                     <input type="text"  placeholder="Username" id="userName">
                 </div>
@@ -32,7 +32,7 @@
                     <input type="password"  id="password" placeholder="Password" class="my-2">
                 </div>
                 <div class="my-2 d-flex justify-content-center">
-                    <button class="my-2 py-2" id="login">Sign In</button>
+                    <button class="my-2 py-2" id="login">Login</button>
                 </div>
                 <a href="signUp.php"  style="color: #000000;">สมัครสมาชิก</a>
             </div>
