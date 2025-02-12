@@ -96,11 +96,6 @@ try {
                                             <button class="btn btn-warning" data-id="<?php echo $item->repairId ?>" id="edit">แก้ไข</button>
                                         <?php } ?>
 
-                                        <?php
-                                        if ($item->state != 3 && $role == '9') {
-                                        ?>
-                                            <button class="btn btn-success" data-id="<?php echo $item->repairId ?>" data-state="<?php echo $item->state ?>" id="state">Update State</button>
-                                        <?php } ?>
                                     </td>
                                 </tr>
                         <?php
