@@ -87,7 +87,7 @@ $user = $q->fetch_object();
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="email">Username</label>
+                            <label for="email">ผู้ใช้งาน</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
@@ -101,6 +101,17 @@ $user = $q->fetch_object();
                         <div class="mb-3">
                             <label for="phone">แผนก</label>
                             <input type="text" class="form-control" value="<?php echo $user->department ?>" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email">email</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.708 2.825L15 11.383V5.383zM1 5.383v6l4.708-2.825L1 5.383zM1.5 12.5v.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-.5l-5.5-3.3-5.5 3.3z" />
+                                    </svg>
+                                </span>
+                                <input type="email" class="form-control" id="email" value="<?php echo $user->email ?>" placeholder="email" aria-label="Email" aria-describedby="basic-addon2">
+                            </div>
                         </div>
                         <button class="btn btn-success form-control" data-id="<?php echo $userId ?>" id="btnSubmit">ยืนยัน</button>
                     </div>
@@ -117,11 +128,13 @@ $user = $q->fetch_object();
                         let firstName = $('#firstName').val();
                         let lastName = $('#lastName').val();
                         let userName = $('#userName').val();
+                        let email = $('#email').val();
                         let formData = new FormData();
                         formData.append('id', id);
                         formData.append('firstName', firstName);
                         formData.append('lastName', lastName);
                         formData.append('userName', userName);
+                        formData.append('email',email);
                         $.ajax({
                             url: './backend/updateProfile.php',
                             type: 'POST',

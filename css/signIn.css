@@ -46,6 +46,7 @@ button {
     background: linear-gradient(45deg, #4011ff, #ffb463);
     font-size: larger;
     transition: ease-in-out 0.5s all;
+    width: 100%;
 }
 
 button:hover {

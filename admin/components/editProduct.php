@@ -7,11 +7,11 @@ $qProduct = $db->query($sqlProduct);
 $item = $qProduct->fetch_object();
 ?>
 
-<form id="formEdit" data-id="<?= $item->productId?>">
+<form id="formEdit" data-id="<?= $item->productId ?>">
     <label for="">เลขครุภัณฑ์</label>
-    <input type="text" class="mb-2 form-control" value="<?= $item->productId ?>" id="productId" 
-        pattern="^\d{4}-\d{3}-\d{4}-\d{4}\/\d{2}$" 
-        title="กรุณาใส่หมายเลขในรูปแบบ 0000-000-0000-0000/00" required/>
+    <input type="text" class="mb-2 form-control" value="<?= $item->productId ?>" id="productId"
+        pattern="^\d{4}-\d{3}-\d{4}-\d{4}\/\d{2}$"
+        title="กรุณาใส่หมายเลขในรูปแบบ 0000-000-0000-0000/00" required />
 
     <label for="">ชื่อครุภัณฑ์</label>
     <input type="text" class="mb-2 form-control" value="<?= $item->productName ?>" id="productName" required>
@@ -28,9 +28,12 @@ $item = $qProduct->fetch_object();
     </select>
 
     <label for="">ประเภท</label>
-    <select class="mb-2 form-select" id="type">
-        <option value="equipment" <?= ($item->type == 'equipment') ? 'selected' : '' ?>>อุปกรณ์สำนักงาน</option>
-        <option value="electronic" <?= ($item->type == 'electronic') ? 'selected' : '' ?>>อุปกรณ์อิเล็กทรอนิกส์</option>
+    <select class=" mb-2 form-select" id="type">
+        <option selected>โปรดเลือกประเภท</option>
+        <option value="PC">เครื่องคอมพิวเตอร์</option>
+        <option value="Monitor">หน้าจอคอมพิวเตอร์</option>
+        <option value="UPS">เครื่องสำรองไฟ</option>
+        <option value="Printer">เครื่องปริ้นเตอร์</option>
     </select>
 
     <button type="submit" class="mb-2 btn btn-success form-control">แก้ไข</button>

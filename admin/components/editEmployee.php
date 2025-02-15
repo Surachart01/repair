@@ -8,7 +8,7 @@
     $item = $qSql->fetch_object();
 ?>
 
-<form id="formEditEmp">
+<form id="formEditEmp" data-id="<?=$empId ?>">
 <label for="">ชื่อจริง</label>
 <input type="text" class="form-control" value="<?= $item->firstName ?>" required id="firstName">
 <label for="">นามสกุล</label>
@@ -32,5 +32,7 @@
     }
     ?>
 </select>
+<label for="">อีเมล</label>
+<input type="email" class="form-control" value="<?= $item->email ?>" required id="email">
 <button type="submit" class="btn btn-success mt-2 form-control" id="btnEditEmp">เพิ่มพนักงาน</button>
 </form>

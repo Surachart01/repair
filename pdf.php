@@ -3,7 +3,7 @@ try {
 
     include("./include/connect.php");
     $repairId = $_GET['Key'];
-    $sqlData = "SELECT * FROM repair INNER JOIN product ON repair.productId = product.productId WHERE repairId = '$repairId'";
+    $sqlData = "SELECT * FROM repair INNER JOIN product ON repair.productId = product.productId INNER JOIN employee ON repair.empId = employee.empId WHERE repairId = '$repairId'";
     $qData = $db->query($sqlData);
     $data = $qData->fetch_object();
     require_once __DIR__ . '/vendor/autoload.php';
@@ -43,7 +43,7 @@ try {
     </tr>
     <tr>
         <td>ยี่ห้อ/รุ่น:  '.$data->brand.'</td>
-        <td>IP: _______________________________</td>
+        <td>ผู้แจ้งซ่อม: '.$data->firstName.' '.$data->lastName.'</td>
     </tr>
     <tr>
         <td>วันที่ได้รับ: ' . (!empty($data->dateEnd) ? $data->dateEnd : '____________________________') . '</td>

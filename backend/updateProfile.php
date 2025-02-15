@@ -6,7 +6,8 @@ $id = $_POST['id'];
 $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
 $userName = $_POST['userName'];
-$sqlUpdateProfile = "UPDATE employee SET firstName = '$firstName', lastName = '$lastName', username = '$userName' WHERE empId = '$id'";
+$email = $_POST['email'];
+$sqlUpdateProfile = "UPDATE employee SET firstName = '$firstName', lastName = '$lastName', username = '$userName' , email = '$email' WHERE empId = '$id'";
 $qUpdateProfile = $db->query($sqlUpdateProfile);
 if ($qUpdateProfile) {
     $sqlGetUser = "SELECT * FROM employee WHERE empId = '$id'";

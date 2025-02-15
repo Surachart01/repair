@@ -373,15 +373,19 @@ include("./auth/auth.php");
 
         $(document).on("submit", "#formEditEmp", function(e) {
             e.preventDefault()
+            let empId = $(this).data("id");
             let firstName = $('#firstName').val();
             let lastName = $('#lastName').val();
             let userName = $('#userName').val();
             let department = $('#department').val();
+            let email = $('#email').val();
             let formData = new FormData();
             formData.append("firstName", firstName);
             formData.append("lastName", lastName);
             formData.append("userName", userName);
             formData.append("department", department);
+            formData.append("empId",empId);
+            formData.append("email",email);
 
             $.ajax({
                 url: "./backend/editEmp.php",

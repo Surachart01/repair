@@ -21,39 +21,58 @@
 
 <body>
     <div class="page">
-        <div class="card">
-            <div class="card-body py-5">
-                <h2 class="my-5 text-center">Sign Up</h2>
-                <div class="my-2 d-flex justify-content-center">
-                    <input type="text" placeholder="firstName" id="firstName">
-                </div>
-                <div class="my-2 d-flex justify-content-center">
-                    <input type="text" placeholder="lastName" id="lastName">
-                </div>
-                <div class="my-2 d-flex justify-content-center">
-                    <input type="text" placeholder="Username" id="userName">
-                </div>
-                <div class="my-2 d-flex justify-content-center">
-                    <input type="password" id="password" placeholder="Password" class="my-2">
-                </div>
-                <div class="my-2 d-flex justify-content-center">
-                    <select name="" id="department" class="">
-                        <option selected>โปรดเลือกแผนก</option>
-                        <option value="doctor">หมอ</option>
-                        <option value="nurse">พยาบาล</option>
-                        <option value="finance">การเงิน</option>
-                        <option value="accounting">การบัญชี</option>
+    <div class="card p-4">
+    <div class="card-body">
+        <h2 class="my-4 text-center">สมัครสมาชิก</h2>
 
-                    </select>
-                </div>
-                <div class="my-2 d-flex justify-content-center">
-                    <button class="my-2 py-2" id="SignUp">Sign Up</button>
-                </div>
-                <a href="signIn.php" style="color: #000000;">เข้าสู่ระบบ</a>
-
-            </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">ชื่อจริง</label>
+            <input type="text" class="form-control" id="firstName" placeholder="กรอกชื่อจริงของคุณ">
         </div>
 
+        <div class="mb-3">
+            <label for="lastName" class="form-label">นามสกุล</label>
+            <input type="text" class="form-control" id="lastName" placeholder="กรอกนามสกุลของคุณ">
+        </div>
+
+        <div class="mb-3">
+            <label for="userName" class="form-label">ชื่อผู้ใช้</label>
+            <input type="text" class="form-control" id="userName" placeholder="เลือกชื่อผู้ใช้">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">รหัสผ่าน</label>
+            <input type="password" class="form-control" id="password" placeholder="กรอกรหัสผ่าน">
+        </div>
+
+        <div class="mb-3">
+            <label for="department" class="form-label">แผนก</label>
+            <select id="department" class="form-select">
+                <option selected>โปรดเลือกแผนก</option>
+                <option value="doctor">หมอ</option>
+                <option value="nurse">พยาบาล</option>
+                <option value="finance">การเงิน</option>
+                <option value="accounting">การบัญชี</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="userName" class="form-label">อีเมล (สำหรับแจ้งเตือน)</label>
+            <input type="email" class="form-control" id="email" placeholder="email">
+        </div>
+
+            <button class=" py-2" style="width:100%" id="SignUp">สมัครสมาชิก</button>
+
+        <div class="text-center mt-3">
+            <a href="signIn.php" style="color: #000000;">เข้าสู่ระบบ</a>
+        </div>
+    </div>
+</div>
+
+
+    </div>
+    <div class="fixed-bottom text-center p-2" style="background-color: black; color: white;">
+        &copy; 2025 Phitsinee Prakod & Achita Boonniam
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -67,12 +86,14 @@
             let userName = $('#userName').val();
             let password = $('#password').val();
             let department = $('#department').val()
+            let email = $('#email').val();
             let formData = new FormData();
             formData.append("firstName", firstName);
             formData.append("lastName", lastName);
             formData.append("userName", userName);
             formData.append("password", password);
             formData.append("department", department);
+            formData.append("email",email);
 
             $.ajax({
                 url: "./backend/signUpUser.php",

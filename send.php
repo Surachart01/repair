@@ -4,6 +4,8 @@ include("./include/connect.php");
 if (!isset($_SESSION['auth'])) {
     header("Location: ./SignIn.php");
 }
+
+$user = $_SESSION['auth'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -76,7 +78,7 @@ if (!isset($_SESSION['auth'])) {
                         <label for="">แผนก</label>
                         <input type="text" id="department" class="form-control" disabled>
                         <div class="">
-                            <label for="">หมายเหตุ</label>
+                            <label for="">อาการที่แจ้งซ่อม</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
@@ -87,8 +89,7 @@ if (!isset($_SESSION['auth'])) {
                                 <textarea class="form-control" id="description" aria-label="With textarea"></textarea>
                             </div>
                         </div>
-                        <label for=""> อีเมลรับการแจ้งเตือน</label>
-                        <input type="email" placeholder="email" id="email" class="form-control">
+                        <input type="hidden" placeholder="email" id="email" value="<?php echo $user->email ?>" class="form-control">
                         <button class="btn btn-success my-3 form-control" id="btnSubmit" disabled>บันทึก</button>
 
                     </div>
@@ -138,7 +139,11 @@ if (!isset($_SESSION['auth'])) {
                             $('#department').val(res.data[0].department);
                             $('#type').val(res.data[0].type);
                             $('#btnSubmit').attr('disabled',false);
-                        } else {
+                        } else if(res.status == '403'){
+                            console.log(res)
+                            obj.get(0).setCustomValidity('ครุภัณฑ์แจ้งซ่อมแล้ว');
+                            obj.get(0).reportValidity();
+                        }else{
                             console.log(res)
                             obj.get(0).setCustomValidity('ไม่พบครุภัณฑ์ในแผนกของคุณ');
                             obj.get(0).reportValidity();

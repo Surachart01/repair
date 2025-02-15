@@ -13,7 +13,7 @@
                 $data = $qSql->fetch_object();
                 echo json_encode(['status' => '200' , 'data' => [$data]]);
             }else{
-                echo json_encode(['status' => '400' , 'message' => "Product is repairing"]);
+                echo json_encode(['status' => '403' , 'message' => "Product is repairing"]);
             }
             
         }else{

@@ -6,6 +6,7 @@ try {
     $userName = $_POST['userName'];
     $password = $_POST['password'];
     $department = $_POST['department'];
+    $email = $_POST['email'];
 
     $sqlCheckEmail = "SELECT * FROM employee WHERE username = '$userName'";
     $qCheckEmail = $db->query($sqlCheckEmail);
@@ -25,7 +26,7 @@ try {
             $newEmpId = 'E001';
         }
         $passwordEncrypt = md5($password);
-        $sqlAddUser = "INSERT INTO employee (empId ,firstName , lastName , username , password , department) VALUES ('$newEmpId','$firstName','$lastName','$userName','$passwordEncrypt','$department')";
+        $sqlAddUser = "INSERT INTO employee (empId ,firstName , lastName , username , password , department,email) VALUES ('$newEmpId','$firstName','$lastName','$userName','$passwordEncrypt','$department','$email')";
         $qAddUser = $db->query($sqlAddUser);
         if($qAddUser){
             echo json_encode(['status' => '200' , 'message' => 'Insert User complate']);
