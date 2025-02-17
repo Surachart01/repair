@@ -21,10 +21,10 @@ $item = $qProduct->fetch_object();
 
     <label for="">แผนก</label>
     <select class="mb-2 form-select" id="department">
-        <option value="1" <?php echo ($dataProblem->department == 1) ? 'selected' : ''; ?>>ศัลยกรรมหญิง</option>
-        <option value="2" <?php echo ($dataProblem->department == 2) ? 'selected' : ''; ?>>ศัลยกรรมชาย</option>
-        <option value="3" <?php echo ($dataProblem->department == 3) ? 'selected' : ''; ?>>การเงิน</option>
-        <option value="4" <?php echo ($dataProblem->department == 4) ? 'selected' : ''; ?>>ห้องฉุกเฉิน</option>
+        <option value="1" <?php echo ($item->department == 1) ? 'selected' : ''; ?>>ศัลยกรรมหญิง</option>
+        <option value="2" <?php echo ($item->department == 2) ? 'selected' : ''; ?>>ศัลยกรรมชาย</option>
+        <option value="3" <?php echo ($item->department == 3) ? 'selected' : ''; ?>>การเงิน</option>
+        <option value="4" <?php echo ($item->department == 4) ? 'selected' : ''; ?>>ห้องฉุกเฉิน</option>
     </select>
 
     <label for="">ประเภท</label>

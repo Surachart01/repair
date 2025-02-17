@@ -35,10 +35,10 @@ $dataProblem = $qGetProblem->fetch_object();
     <div class="w-50">
         <label for="">ประเภท</label>
         <select class="form-select" id="type" disabled>
-            <option value="PC" <?= ($item->department == 'PC') ? 'selected' : '' ?>>เครื่องคอมพิวเตอร์</option>
-            <option value="Monitor" <?= ($item->department == 'Monitor') ? 'selected' : '' ?>>หน้าจอคอมพิวเตอร์</option>
-            <option value="UPS" <?= ($item->department == 'UPS') ? 'selected' : '' ?>>เครื่องสำรองไฟ</option>
-            <option value="Printer" <?= ($item->department == 'Printer') ? 'selected' : '' ?>>เครื่องปริ้นเตอร์</option>
+            <option value="PC" <?= ($dataProblem->department == 'PC') ? 'selected' : '' ?>>เครื่องคอมพิวเตอร์</option>
+            <option value="Monitor" <?= ($dataProblem->department == 'Monitor') ? 'selected' : '' ?>>หน้าจอคอมพิวเตอร์</option>
+            <option value="UPS" <?= ($dataProblem->department == 'UPS') ? 'selected' : '' ?>>เครื่องสำรองไฟ</option>
+            <option value="Printer" <?= ($dataProblem->department == 'Printer') ? 'selected' : '' ?>>เครื่องปริ้นเตอร์</option>
         </select>
     </div>
 
