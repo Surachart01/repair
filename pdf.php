@@ -36,7 +36,8 @@ try {
         <td>เลขที่แจ้งซ่อม:   '.$data->repairId .'</td>
     </tr>
     <tr>
-        <td>วันที่แจ้งซ่อม:   '.$data->date.'</td>
+        <td>วันที่แจ้งซ่อม:   '. date("d-m-Y", strtotime($data->date))
+.'</td>
         <td>หน่วยงาน:  '.$department.'</td>
     </tr>
     <tr>
@@ -48,7 +49,8 @@ try {
         <td>ผู้แจ้งซ่อม: '.$data->firstName.' '.$data->lastName.'</td>
     </tr>
     <tr>
-        <td>วันที่ได้รับ: ' . (!empty($data->dateEnd) ? $data->dateEnd : '____________________________') . '</td>
+        <td>วันที่ได้รับ: ' . (!empty($data->dateEnd) ? date("d-m-Y", strtotime($data->dateEnd))
+        : '____________________________') . '</td>
         <td>ราคา: __________ ผู้จำหน่าย: _____________</td>
     </tr>
 </table>
