@@ -85,7 +85,7 @@ try {
                                     <td><?php echo $item->productName ?></td>
                                     <td><?php echo $item->productId ?></td>
                                     <td><?= ($item->type == "PC") ? "เครื่องคอมพิวเตอร์" : (($item->type == "Monitor") ? "หน้าจอคอมพิวเตอร์" : (($item->type == "UPS") ? "เครื่องสำรองไฟ" : (($item->type == "Printer") ? "เครื่องปริ้นเตอร์" : "ไม่ทราบประเภท"))); ?></td>
-                                    <td><?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></td>
+                                    <td><?php echo ($item->department == '1')?'ศัลยกรรมหญิง':(($item->department == '2')?'ศัลยกรรมชาย':(($item->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></td>
                                     <td>
                                         <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
                                     </td>

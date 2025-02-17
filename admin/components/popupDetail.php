@@ -21,7 +21,7 @@ try {
 <p class="text-start">หมายเลขครุภัณฑ์ : <?php echo $item->productId ?> </p>
 <p class="text-start">วัสดุ : <?php echo $item->productName ?> </p>
 <p class="text-start">ประเภท : <?php echo $item->type ?> </p>
-<p class="text-start">แผนก : <?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></p>
+<p class="text-start">แผนก : <?php echo ($item->department == '1')?'ศัลยกรรมหญิง':(($item->department == '2')?'ศัลยกรรมชาย':(($item->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></p>
 <p class="text-start">สถานะ : <?php echo $state ?> </p>
 <p class="text-start">รายละเอียด : <?php echo $item->description ?> </p>
 <p class="text-start">อีเมลที่แจ้งเตือน : <?php echo $item->email ?> </p>

@@ -114,7 +114,7 @@ $qProduct = $db->query($sqlProduct);
                                     <td><?= $item->productName ?></td>
                                     <td><?= $item->brand ?></td>
                                     <td>
-                                    <?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?>
+                                    <?php echo ($item->department == '1')?'ศัลยกรรมหญิง':(($item->department == '2')?'ศัลยกรรมชาย':(($item->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?>
                                     </td>
 
                                     <td>

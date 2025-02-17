@@ -23,7 +23,7 @@ $qEmp = $db->query($sqlEmp);
                 <td><?= $item->username ?></td>
                 <td><?= $item->firstName ?></td>
                 <td><?= $item->lastName ?></td>
-                <td><?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></td>
+                <td><?php echo ($item->department == '1')?'ศัลยกรรมหญิง':(($item->department == '2')?'ศัลยกรรมชาย':(($item->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></td>
                 <td>
                 <button class="btn btn-warning bt-edit-emp" data-id="<?= $item->empId?>">แก้ไข</button>
                 <button class="btn btn-danger bt-del-emp" data-id="<?= $item->empId?>">ลบ</button>
