@@ -21,19 +21,18 @@ $item = $qProduct->fetch_object();
 
     <label for="">แผนก</label>
     <select class="mb-2 form-select" id="department">
-        <option value="doctor" <?= ($item->department == 'doctor') ? 'selected' : '' ?>>หมอ</option>
-        <option value="nurse" <?= ($item->department == 'nurse') ? 'selected' : '' ?>>พยาบาล</option>
-        <option value="finance" <?= ($item->department == 'finance') ? 'selected' : '' ?>>การเงิน</option>
-        <option value="accounting" <?= ($item->department == 'accounting') ? 'selected' : '' ?>>การบัญชี</option>
+        <option value="1" <?php echo ($dataProblem->department == 1) ? 'selected' : ''; ?>>ศัลยกรรมหญิง</option>
+        <option value="2" <?php echo ($dataProblem->department == 2) ? 'selected' : ''; ?>>ศัลยกรรมชาย</option>
+        <option value="3" <?php echo ($dataProblem->department == 3) ? 'selected' : ''; ?>>การเงิน</option>
+        <option value="4" <?php echo ($dataProblem->department == 4) ? 'selected' : ''; ?>>ห้องฉุกเฉิน</option>
     </select>
 
     <label for="">ประเภท</label>
     <select class=" mb-2 form-select" id="type">
-        <option selected>โปรดเลือกประเภท</option>
-        <option value="PC">เครื่องคอมพิวเตอร์</option>
-        <option value="Monitor">หน้าจอคอมพิวเตอร์</option>
-        <option value="UPS">เครื่องสำรองไฟ</option>
-        <option value="Printer">เครื่องปริ้นเตอร์</option>
+        <option value="PC" <?= ($item->department == 'PC') ? 'selected' : '' ?>>เครื่องคอมพิวเตอร์</option>
+        <option value="Monitor" <?= ($item->department == 'Monitor') ? 'selected' : '' ?>>หน้าจอคอมพิวเตอร์</option>
+        <option value="UPS" <?= ($item->department == 'UPS') ? 'selected' : '' ?>>เครื่องสำรองไฟ</option>
+        <option value="Printer" <?= ($item->department == 'Printer') ? 'selected' : '' ?>>เครื่องปริ้นเตอร์</option>
     </select>
 
     <button type="submit" class="mb-2 btn btn-success form-control">แก้ไข</button>

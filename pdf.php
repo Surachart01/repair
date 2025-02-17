@@ -6,6 +6,8 @@ try {
     $sqlData = "SELECT * FROM repair INNER JOIN product ON repair.productId = product.productId INNER JOIN employee ON repair.empId = employee.empId WHERE repairId = '$repairId'";
     $qData = $db->query($sqlData);
     $data = $qData->fetch_object();
+    $type = ($data->type == "PC") ? "เครื่องคอมพิวเตอร์" : (($data->type == "Monitor") ? "หน้าจอคอมพิวเตอร์" : (($data->type == "UPS") ? "เครื่องสำรองไฟ" : (($data->type == "Printer") ? "เครื่องปริ้นเตอร์" : "ไม่ทราบประเภท")));
+    $department = ($data->department == '1')?'ศัลยกรรมหญิง':(($data->department == '2')?'ศัลยกรรมชาย':(($data->department == '3')?'การเงิน':'ห้องฉุกเฉิน'));
     require_once __DIR__ . '/vendor/autoload.php';
 
     $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
@@ -35,10 +37,10 @@ try {
     </tr>
     <tr>
         <td>วันที่แจ้งซ่อม:   '.$data->date.'</td>
-        <td>หน่วยงาน:  '.$data->department.'</td>
+        <td>หน่วยงาน:  '.$department.'</td>
     </tr>
     <tr>
-        <td>ครุภัณฑ์:  '.$data->type.'</td>
+        <td>ครุภัณฑ์:  '.$type.'</td>
         <td>หมายเลข :  '.$data->productId.'</td>
     </tr>
     <tr>

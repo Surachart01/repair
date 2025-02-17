@@ -44,15 +44,15 @@
             <label for="password" class="form-label">รหัสผ่าน</label>
             <input type="password" class="form-control" id="password" placeholder="กรอกรหัสผ่าน">
         </div>
-
+        
         <div class="mb-3">
             <label for="department" class="form-label">แผนก</label>
             <select id="department" class="form-select">
                 <option selected>โปรดเลือกแผนก</option>
-                <option value="doctor">หมอ</option>
-                <option value="nurse">พยาบาล</option>
-                <option value="finance">การเงิน</option>
-                <option value="accounting">การบัญชี</option>
+                <option value="1">ศัลยกรรมหญิง</option>
+                <option value="2">ศัลยกรรมชาย</option>
+                <option value="3">การเงิน</option>
+                <option value="4">ห้องฉุกเฉิน</option>
             </select>
         </div>
 

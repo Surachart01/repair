@@ -427,12 +427,14 @@ include("./auth/auth.php");
             let userName = $('#userName').val();
             let password = $('#password').val();
             let department = $('#department').val();
+            let email = $('#email').val();
             let formData = new FormData();
             formData.append("firstName", firstName);
             formData.append("lastName", lastName);
             formData.append("userName", userName);
             formData.append("password", password);
             formData.append("department", department);
+            formData.append("email",email);
 
             $.ajax({
                 url: "../backend/signUpUser.php",

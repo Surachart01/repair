@@ -168,7 +168,7 @@ try {
                                                 <td><?php echo $item->productName ?></td>
                                                 <td><?php echo $item->productId ?></td>
                                                 <td><?php echo $item->type ?></td>
-                                                <td><?php echo $item->department ?></td>
+                                                <td><?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?></td>
                                                 <td>
                                                     <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>
                                                 </td>

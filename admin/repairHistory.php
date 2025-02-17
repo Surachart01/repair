@@ -124,7 +124,7 @@ $qRepair = $db->query($sqlRepair);
                                                 <?= ($item->type == "PC") ? "เครื่องคอมพิวเตอร์" : (($item->type == "Monitor") ? "หน้าจอคอมพิวเตอร์" : (($item->type == "UPS") ? "เครื่องสำรองไฟ" : (($item->type == "Printer") ? "เครื่องปริ้นเตอร์" : "ไม่ทราบประเภท"))); ?>
                                             </td>
                                             <td>
-                                                <?= ($item->department == "doctor") ? "หมอ" : (($item->department == "nurse") ? "พยาบาล" : (($item->department == "finance") ? "การเงิน" : (($item->department == "accounting") ? "การบัญชี" : "ไม่ทราบแผนก"))); ?>
+                                            <?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?>
                                             </td>
                                             <td>
                                                 <p class="text-center rounded py-1 text-light <?php echo $color ?>"><?php echo $state ?></p>

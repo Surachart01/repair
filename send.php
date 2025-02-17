@@ -89,7 +89,7 @@ $user = $_SESSION['auth'];
                                 <textarea class="form-control" id="description" aria-label="With textarea"></textarea>
                             </div>
                         </div>
-                        <input type="hidden" placeholder="email" id="email" value="<?php echo $user->email ?>" class="form-control">
+                        <input type="email" placeholder="email" id="email" value="<?php echo $user->email ?>" class="form-control">
                         <button class="btn btn-success my-3 form-control" id="btnSubmit" disabled>บันทึก</button>
 
                     </div>

@@ -100,8 +100,8 @@ $user = $q->fetch_object();
 
                         <div class="mb-3">
                             <label for="phone">แผนก</label>
-                            <input type="text" class="form-control" value="<?php echo $user->department ?>" disabled>
-                        </div>
+                            <input type="text" class="form-control" value="<?php echo ($user->department == '1')?'ศัลยกรรมหญิง':(($user->department == '2')?'ศัลยกรรมชาย':(($user->department == '3')?'การเงิน':'ห้องฉุกเฉิน')) ?>" disabled>
+                        </div
                         <div class="mb-3">
                             <label for="email">email</label>
                             <div class="input-group">

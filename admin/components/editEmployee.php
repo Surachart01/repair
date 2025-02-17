@@ -20,10 +20,10 @@
     <option selected>โปรดเลือกแผนก</option>
     <?php
     $departments = [
-        "doctor" => "หมอ",
-        "nurse" => "พยาบาล",
-        "finance" => "การเงิน",
-        "accounting" => "การบัญชี"
+        "1" => "ศัลยกรรมหญิง",
+        "2" => "ศัลยกรรมชาย",
+        "3" => "การเงิน",
+        "4" => "ห้องฉุกเฉิน"
     ];
 
     foreach ($departments as $value => $label) {
